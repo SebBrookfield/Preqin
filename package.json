@@ -1,0 +1,48 @@
+{
+  "name": "prequin",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@mui/lab": "^5.0.0-alpha.155",
+    "@mui/material": "^5.14.20",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.7",
+    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/user-event": "^14.5.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "^5.0.1",
+    "styled-components": "^6.1.1"
+  },
+  "scripts": {
+    "tsc": "./node_modules/.bin/tsc",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "lint": "prettier . --check",
+    "lint:fix": "prettier . --write"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@craco/craco": "^7.1.0",
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.10.4",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "craco-alias": "^3.0.1",
+    "prettier": "3.1.0",
+    "react-router-dom": "^6.20.1",
+    "typescript": "^5.3.3"
+  }
+}
