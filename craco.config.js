@@ -1,4 +1,5 @@
 const CracoAlias = require('craco-alias')
+const CracoEnvPlugin = require('craco-plugin-env')
 
 module.exports = {
   plugins: [
@@ -7,6 +8,12 @@ module.exports = {
       options: {
         source: 'tsconfig',
         tsConfigPath: './tsconfig.paths.json'
+      }
+    },
+    {
+      plugin: CracoEnvPlugin,
+      options: {
+        variables: {}
       }
     }
   ],

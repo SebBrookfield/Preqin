@@ -1,5 +1,6 @@
 import React, { FC, ReactNode, useState } from 'react'
 import { AuthenticationContext } from './AuthenticationContext'
+import { simpleStorageService } from '../../services'
 
 type AuthenticationProviderProps = {
   children: ReactNode
@@ -8,16 +9,15 @@ type AuthenticationProviderProps = {
 export const AuthenticationProvider: FC<AuthenticationProviderProps> = ({
   children
 }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [authenticationError, setAuthenticationError] = useState<string>()
+  const [authenticated, setAuthenticated] = useState<boolean>(
+    !!simpleStorageService.authenticationToken
+  )
 
   return (
     <AuthenticationContext.Provider
       value={{
-        isAuthenticated,
-        setIsAuthenticated,
-        authenticationError,
-        setAuthenticationError
+        authenticated,
+        setAuthenticated
       }}
     >
       {children}

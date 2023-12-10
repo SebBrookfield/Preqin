@@ -1,40 +1,21 @@
 import { useContext } from 'react'
 import { AuthenticationContext } from './AuthenticationContext'
-import { useNavigate } from 'react-router-dom'
+import { authenticateUser } from './authenticateUser'
 
 type UseAuthentication = {
   isAuthenticated: boolean
-  authenticationError: string | undefined
-  authenticateUser: (username: string, password: string) => void
+  authenticateUser: (
+    username: string,
+    password: string
+  ) => Promise<[boolean, string | undefined]>
 }
 
 export const useAuthentication = (): UseAuthentication => {
-  const navigate = useNavigate()
-
-  const {
-    isAuthenticated,
-    authenticationError,
-    setIsAuthenticated,
-    setAuthenticationError
-  } = useContext(AuthenticationContext)
-
-  const fakeAuthenticateUser = (username: string, password: string) => {
-    const error =
-      username === 'dummydatafeeds@preqin.com' && password === 'dummy'
-        ? undefined
-        : 'Incorrect username and/or password.'
-
-    setIsAuthenticated(!error)
-    setAuthenticationError(error)
-
-    if (!error) {
-      navigate('/')
-    }
-  }
+  const { authenticated, setAuthenticated } = useContext(AuthenticationContext)
 
   return {
-    isAuthenticated,
-    authenticationError,
-    authenticateUser: fakeAuthenticateUser
+    isAuthenticated: authenticated,
+    authenticateUser: (username: string, password: string) =>
+      authenticateUser(username, password, setAuthenticated)
   }
 }
