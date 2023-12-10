@@ -16,10 +16,6 @@ const authenticateUser = async (
   }
 }
 
-const internalAuthenticationService = () => {
-  return {
-    authenticateUser
-  }
+export const authenticationService = {
+  authenticateUser
 }
-
-export const authenticationService = internalAuthenticationService()
