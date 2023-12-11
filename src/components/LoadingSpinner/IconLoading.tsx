@@ -6,7 +6,7 @@ export const IconLoading = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
-    color="#FFF"
+    color="#C4C4C4"
     viewBox="0 0 100 100"
     xmlnsXlink="http://www.w3.org/1999/xlink"
     {...props}

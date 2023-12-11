@@ -71,13 +71,16 @@ export const InvestorInformation: FC<InvestorPanelProps> = ({ investor }) => {
         </Select>
       </FormControl>
 
-      {assetClass && (commitmentsLoading || commitments) && (
+      {(commitmentsLoading || commitments) && (
         <Box
+          display={'flex'}
+          alignItems={'cemter'}
+          justifyContent={'center'}
           sx={{
             mt: 2,
             p: 2,
             border: 1,
-            borderColor: 'grey.500',
+            borderColor: 'grey.400',
             borderRadius: '8px',
             height: 'auto'
           }}

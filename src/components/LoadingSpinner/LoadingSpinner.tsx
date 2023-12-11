@@ -9,8 +9,8 @@ const spin = keyframes`
 `
 
 const StyledBox = styled(Box)`
-  height: 100%;
-  width: 100%;
+  height: 48px;
+  width: 48px;
   align-items: center;
   justify-content: center;
 `

@@ -8,7 +8,7 @@ type CommitmentsProps = {
 }
 
 export const Commitments: FC<CommitmentsProps> = ({ commitments }) => (
-  <Box display={'flex'} flexDirection={'column'}>
+  <Box display={'flex'} flexDirection={'column'} width={'100%'}>
     {commitments.map(commitment => {
       return (
         <Box
