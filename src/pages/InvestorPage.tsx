@@ -3,7 +3,7 @@ import { Container } from '@mui/material'
 import { BasePage } from './BasePage'
 import { useParams, Navigate, useLocation } from 'react-router-dom'
 import { InvestorInformation } from '../components/Investors'
-import { investorsService } from '../services/prequinInvestorsService'
+import { investorsService } from '../services/preqinInvestorsService'
 
 export const InvestorPage: FC = () => {
   const { investorId } = useParams()

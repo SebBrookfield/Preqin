@@ -1,11 +1,11 @@
-import { basePrequinService } from './basePrequinService'
+import { basePreqinService } from './basePreqinService'
 import { AccessToken } from './types/accessToken'
 
 const authenticateUser = async (
   username: string,
   password: string
 ): Promise<Partial<Pick<AccessToken, 'access_token' | 'expires_in'>>> => {
-  const tokenResponse = await basePrequinService.postEncoded<AccessToken>(
+  const tokenResponse = await basePreqinService.postEncoded<AccessToken>(
     '/connect/token',
     { username, apiKey: password }
   )

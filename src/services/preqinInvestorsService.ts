@@ -1,4 +1,4 @@
-import { basePrequinService } from './basePrequinService'
+import { basePreqinService } from './basePreqinService'
 import { Investor } from './types/investor'
 import { ApiResponse } from './types/apiResponse'
 import { Commitment } from './types/commitment'
@@ -7,7 +7,7 @@ const getInvestorsByFirmId = async (
   firmId: string | string[]
 ): Promise<Investor[]> => {
   const firmIds = typeof firmId === 'string' ? firmId : firmId.join(',')
-  const response = await basePrequinService.get<ApiResponse<Investor[]>>(
+  const response = await basePreqinService.get<ApiResponse<Investor[]>>(
     `/api/Investor?FirmID=${firmIds}`
   )
 
@@ -18,7 +18,7 @@ const getCommitments = async (
   assetClass: string,
   investorId: string
 ): Promise<Commitment[] | undefined> => {
-  const response = await basePrequinService.get<ApiResponse<Commitment[]>>(
+  const response = await basePreqinService.get<ApiResponse<Commitment[]>>(
     `/api/Investor/commitment/${assetClass}/${investorId}`
   )
 

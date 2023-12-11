@@ -20,7 +20,7 @@ import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-material.css'
 import { renderToString } from 'react-dom/server'
 import { LoadingSpinner } from '../LoadingSpinner'
-import { investorsService } from '../../services/prequinInvestorsService'
+import { investorsService } from '../../services/preqinInvestorsService'
 import { Investor } from '../../services'
 import { useNavigate } from 'react-router-dom'
 

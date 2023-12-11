@@ -1,16 +1,16 @@
 type Environment = {
-  PREQUIN_API_BASE_URL: string
+  PREQIN_API_BASE_URL: string
 }
 
 export const internalEnvironmentService = (): Environment => {
-  const { REACT_APP_PREQUIN_API_BASE_URL } = process.env
+  const { REACT_APP_PREQIN_API_BASE_URL } = process.env
 
-  if (!REACT_APP_PREQUIN_API_BASE_URL) {
-    throw new Error('REACT_APP_PREQUIN_API_BASE_URL is not defined.')
+  if (!REACT_APP_PREQIN_API_BASE_URL) {
+    throw new Error('REACT_APP_PREQIN_API_BASE_URL is not defined.')
   }
 
   return {
-    PREQUIN_API_BASE_URL: REACT_APP_PREQUIN_API_BASE_URL
+    PREQIN_API_BASE_URL: REACT_APP_PREQIN_API_BASE_URL
   }
 }
 

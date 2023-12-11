@@ -1,7 +1,7 @@
 import { environmentService } from './environmentService'
 import { simpleStorageService } from './simpleStorageService'
 
-type PrequinServiceBase = {
+type PreqinServiceBase = {
   get: <T>(api: string) => Promise<T | undefined>
   post: <T>(api: string, data?: object) => Promise<T | undefined>
   postEncoded: <T>(
@@ -11,7 +11,7 @@ type PrequinServiceBase = {
 }
 
 const createUrl = (api: string): string => {
-  const baseUrl = environmentService.PREQUIN_API_BASE_URL
+  const baseUrl = environmentService.PREQIN_API_BASE_URL
   return new URL(api, baseUrl).href
 }
 
@@ -42,7 +42,7 @@ const fetchResponse = async <T>(
   }
 }
 
-export const basePrequinService: PrequinServiceBase = {
+export const basePreqinService: PreqinServiceBase = {
   get: async api => await fetchResponse(api, 'GET'),
   post: async (api, data) =>
     await fetchResponse(api, 'POST', JSON.stringify(data)),

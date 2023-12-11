@@ -11,7 +11,7 @@ import {
   SelectChangeEvent
 } from '@mui/material'
 import { LoadingSpinner } from '../LoadingSpinner'
-import { investorsService } from '../../services/prequinInvestorsService'
+import { investorsService } from '../../services/preqinInvestorsService'
 import { toKvp } from '../../utils/kvp'
 import { Commitments } from './Commitments'
 
