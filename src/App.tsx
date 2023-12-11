@@ -7,6 +7,7 @@ import {
 } from './components/Authentication'
 import { HomePage } from './pages/HomePage'
 import { LoginPage } from './pages/LoginPage'
+import { InvestorPage } from './pages/InvestorPage'
 
 export default () => {
   const theme = createTheme()
@@ -18,6 +19,10 @@ export default () => {
             <Route
               path="/"
               element={<ProtectedRoute element={<HomePage />} />}
+            />
+            <Route
+              path="/investors/:investorId"
+              element={<ProtectedRoute element={<InvestorPage />} />}
             />
             <Route path="/login" element={<LoginPage />} />
           </Routes>

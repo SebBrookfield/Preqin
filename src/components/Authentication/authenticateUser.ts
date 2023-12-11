@@ -9,15 +9,17 @@ export const authenticateUser = async (
     const { access_token, expires_in } =
       await authenticationService.authenticateUser(username, password)
 
-    const error = access_token
-      ? undefined
-      : 'Incorrect username and/or password.'
+    const error =
+      access_token && expires_in
+        ? undefined
+        : 'Incorrect username and/or password.'
 
-    simpleStorageService.authenticationToken = {
-      token: access_token,
-      expiryInSeconds: expires_in
+    if (!error) {
+      simpleStorageService.authenticationToken = {
+        token: access_token!,
+        expiryInSeconds: expires_in!
+      }
     }
-
     setAuthenticated(!!access_token)
 
     return [!error, error]

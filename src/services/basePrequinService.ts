@@ -2,9 +2,12 @@ import { environmentService } from './environmentService'
 import { simpleStorageService } from './simpleStorageService'
 
 type PrequinServiceBase = {
-  get: <T>(api: string) => Promise<T>
-  post: <T>(api: string, data?: object) => Promise<T>
-  postEncoded: <T>(api: string, data: Record<string, string>) => Promise<T>
+  get: <T>(api: string) => Promise<T | undefined>
+  post: <T>(api: string, data?: object) => Promise<T | undefined>
+  postEncoded: <T>(
+    api: string,
+    data: Record<string, string>
+  ) => Promise<T | undefined>
 }
 
 const createUrl = (api: string): string => {
@@ -16,7 +19,7 @@ const fetchResponse = async <T>(
   api: string,
   method: 'GET' | 'POST',
   body?: string | URLSearchParams
-): Promise<T> => {
+): Promise<T | undefined> => {
   const url = createUrl(api)
   const headers: Record<string, string> = {}
   const authenticationToken = simpleStorageService.authenticationToken
@@ -25,13 +28,18 @@ const fetchResponse = async <T>(
     headers['Authorization'] = `Bearer ${authenticationToken}`
   }
 
-  const response = await fetch(url, {
-    method,
-    headers,
-    body
-  })
+  try {
+    const response = await fetch(url, {
+      method,
+      headers,
+      body
+    })
 
-  return await response.json()
+    return await response.json()
+  } catch (error: any) {
+    console.error(error)
+    return undefined
+  }
 }
 
 export const basePrequinService: PrequinServiceBase = {

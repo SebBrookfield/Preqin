@@ -4,15 +4,15 @@ import { AccessToken } from './types/accessToken'
 const authenticateUser = async (
   username: string,
   password: string
-): Promise<Pick<AccessToken, 'access_token' | 'expires_in'>> => {
+): Promise<Partial<Pick<AccessToken, 'access_token' | 'expires_in'>>> => {
   const tokenResponse = await basePrequinService.postEncoded<AccessToken>(
     '/connect/token',
     { username, apiKey: password }
   )
 
   return {
-    access_token: tokenResponse.access_token,
-    expires_in: tokenResponse.expires_in
+    access_token: tokenResponse?.access_token,
+    expires_in: tokenResponse?.expires_in
   }
 }
 

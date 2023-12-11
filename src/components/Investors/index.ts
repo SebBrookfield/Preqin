@@ -1,2 +1,2 @@
 export { InvestorsGrid } from './InvestorsGrid'
-export { InvestorPanel } from './InvestorPanel'
+export { InvestorInformation } from './InvestorInformation'

@@ -22,6 +22,7 @@ import { renderToString } from 'react-dom/server'
 import { LoadingSpinner } from '../LoadingSpinner'
 import { investorsService } from '../../services/prequinInvestorsService'
 import { Investor } from '../../services'
+import { useNavigate } from 'react-router-dom'
 
 const StyledBox = styled(Box)`
   height: 100%;
@@ -51,35 +52,18 @@ type GridProps<TData = any> = Exclude<
   'rowData'
 > & {
   filter: { firmIds: number[] }
-  showInvestorPanelForId: (investorId: number) => void
 }
 
 const columns: string[] = [
   'firmID',
   'firmName',
-  'region',
-  'address',
-  'city',
-  'stateCounty',
-  'zipCode',
-  'country',
-  'website',
-  'email',
-  'tel',
-  'fax',
-  'generalConsultant',
-  'localLanguageFirmName',
-  'secondaryLocations',
   'firmType',
-  'yearEst',
-  'investorCurrency',
-  'matchingFunds',
-  'about'
+  'address',
+  'dateAdded'
 ]
 
 export const InvestorsGrid: FC<GridProps> = ({
   filter,
-  showInvestorPanelForId,
   overlayNoRowsTemplate,
   overlayLoadingTemplate,
   modules,
@@ -88,6 +72,7 @@ export const InvestorsGrid: FC<GridProps> = ({
 }) => {
   const [investors, setInvestors] = useState<Investor[]>()
   const [loading, setLoading] = useState<boolean>(true)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (filter?.firmIds) {
@@ -100,13 +85,23 @@ export const InvestorsGrid: FC<GridProps> = ({
     }
   }, [])
 
+  const navigateToInvestor = (investor: Investor) => {
+    navigate(`/investors/${parseInt(investor.firmID)}`, {
+      state: {
+        investor
+      }
+    })
+  }
+
   return (
     <StyledBox className={'ag-theme-material'}>
       <AgGridReact
-        rowData={loading && !investors ? undefined : investors || []}
         columnDefs={columns.map(c => ({
           field: c
         }))}
+        rowData={loading && !investors ? undefined : investors || []}
+        getRowId={params => params.data.firmID}
+        onRowClicked={event => navigateToInvestor(event.data)}
         defaultColDef={{
           ...baseColDef,
           ...(defaultColDef ?? {})
