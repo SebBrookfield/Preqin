@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC } from 'react'
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model'
 import { ClipboardModule } from '@ag-grid-enterprise/clipboard'
 import { ColumnsToolPanelModule } from '@ag-grid-enterprise/column-tool-panel'
@@ -20,10 +20,6 @@ import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-material.css'
 import { renderToString } from 'react-dom/server'
 import { LoadingSpinner } from '../LoadingSpinner'
-import { investorsService } from '../../services/preqinInvestorsService'
-import { Investor } from '../../services'
-import { useNavigate } from 'react-router-dom'
-import { Grid } from '../Grid'
 
 const StyledBox = styled(Box)`
   height: 100%;
@@ -48,63 +44,49 @@ const baseColDef: ColDef = {
   resizable: true
 }
 
-type GridProps<TData = any> = Exclude<
-  AgGridReactProps<TData> | AgReactUiProps<TData>,
-  'rowData'
-> & {
-  filter: { firmIds: number[] }
+type GridProps<TData = any> = (
+  | AgGridReactProps<TData>
+  | AgReactUiProps<TData>
+) & {
+  loading: boolean
 }
 
-const columns: string[] = [
-  'firmID',
-  'firmName',
-  'firmType',
-  'address',
-  'dateAdded'
-]
-
-export const InvestorsGrid: FC<GridProps> = ({
-  filter,
+export const Grid: FC<GridProps> = ({
+  loading,
+  rowData,
   overlayNoRowsTemplate,
   overlayLoadingTemplate,
   modules,
   defaultColDef,
   ...rest
 }) => {
-  const [investors, setInvestors] = useState<Investor[]>()
-  const [loading, setLoading] = useState<boolean>(true)
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (filter?.firmIds) {
-      investorsService
-        .getInvestorsByFirmId(filter.firmIds?.map(id => id.toString()))
-        .then(investors => {
-          setInvestors(investors)
-          setLoading(false)
-        })
-    }
-  }, [])
-
-  const navigateToInvestor = (investor: Investor) => {
-    navigate(`/investors/${parseInt(investor.firmID)}`, {
-      state: {
-        investor
-      }
-    })
-  }
-
   return (
-    <Grid
-      columnDefs={columns.map(c => ({
-        field: c
-      }))}
-      loading={loading}
-      rowData={investors}
-      getRowId={params => params.data.firmID}
-      onRowClicked={event => navigateToInvestor(event.data)}
-      onGridReady={event => event.api.sizeColumnsToFit()}
-      {...rest}
-    />
+    <StyledBox className={'ag-theme-material'}>
+      <AgGridReact
+        rowData={loading ? undefined : rowData}
+        defaultColDef={{
+          ...baseColDef,
+          ...(defaultColDef ?? {})
+        }}
+        modules={[...baseModules, ...(modules || [])]}
+        overlayNoRowsTemplate={
+          overlayNoRowsTemplate ||
+          renderToString(
+            <Box height={'auto'}>
+              <Typography>Nothing to display</Typography>
+            </Box>
+          )
+        }
+        overlayLoadingTemplate={
+          overlayLoadingTemplate ||
+          renderToString(
+            <Box display={'flex'} height={'48px'} width={'48px'}>
+              <LoadingSpinner />
+            </Box>
+          )
+        }
+        {...rest}
+      ></AgGridReact>
+    </StyledBox>
   )
 }

@@ -18,7 +18,7 @@ export const InvestorPage: FC = () => {
 
   return (
     <BasePage>
-      <Container>
+      <Container sx={{ p: 2 }}>
         {investor && <InvestorInformation investor={investor} />}
         {!investor && <Navigate to={'/'} />}
       </Container>

@@ -4,23 +4,43 @@ import {
   Box,
   FormControl,
   InputLabel,
-  TextField,
   Typography,
   Select,
   MenuItem,
   SelectChangeEvent
 } from '@mui/material'
-import { LoadingSpinner } from '../LoadingSpinner'
 import { investorsService } from '../../services/preqinInvestorsService'
 import { toKvp } from '../../utils/kvp'
-import { Commitments } from './Commitments'
+import { camelCaseToSentenceCase } from '../../utils/toSentenceCase'
+import { Label } from '../Label'
+import { InformationBox } from '../InformationBox'
+import { CommitmentsGrid } from './CommitmentsGrid'
 
 type InvestorPanelProps = {
   investor: Investor
 }
 
 export const InvestorInformation: FC<InvestorPanelProps> = ({ investor }) => {
-  const kvp = toKvp(investor, ['region', 'address', 'city'])
+  const kvp = toKvp(investor, [
+    'firmID',
+    'firmName',
+    'region',
+    'address',
+    'city',
+    'stateCounty',
+    'zipCode',
+    'country',
+    'website',
+    'email',
+    'tel',
+    'fax',
+    'generalConsultant',
+    'localLanguageFirmName',
+    'secondaryLocations',
+    'firmType',
+    'yearEst',
+    'investorCurrency'
+  ])
 
   const [assetClass, setAssetClass] = React.useState('')
   const [commitmentsLoading, setCommitmentsLoading] = React.useState(false)
@@ -37,24 +57,27 @@ export const InvestorInformation: FC<InvestorPanelProps> = ({ investor }) => {
   }
 
   return (
-    <Box display={'flex'} flexDirection={'column'}>
+    <Box display={'flex'} flexDirection={'column'} gap={3}>
       <Typography component="h1" variant="h5">
         {investor.firmName}
       </Typography>
 
-      {kvp.map(([key, value]) => (
-        <TextField
-          key={key}
-          sx={{ mt: 2 }}
-          id={key}
-          label={key}
-          variant="outlined"
-          size={'small'}
-          value={value}
-        />
-      ))}
+      <InformationBox>
+        {kvp
+          .filter(([_, value]) => !!value)
+          .map(([key, value]) => (
+            <Label
+              key={key}
+              id={key}
+              label={camelCaseToSentenceCase(key)}
+              width={'250px'}
+            >
+              {value}
+            </Label>
+          ))}
+      </InformationBox>
 
-      <FormControl fullWidth sx={{ mt: 2 }}>
+      <FormControl fullWidth>
         <InputLabel>Asset Class</InputLabel>
         <Select
           id="assetClasses"
@@ -71,24 +94,18 @@ export const InvestorInformation: FC<InvestorPanelProps> = ({ investor }) => {
         </Select>
       </FormControl>
 
-      {(commitmentsLoading || commitments) && (
+      {(commitments || commitmentsLoading) && (
         <Box
-          display={'flex'}
-          alignItems={'cemter'}
-          justifyContent={'center'}
-          sx={{
-            mt: 2,
-            p: 2,
-            border: 1,
-            borderColor: 'grey.400',
-            borderRadius: '8px',
-            height: 'auto'
-          }}
+          height={'500px'}
+          border={1}
+          borderRadius={1}
+          borderColor={'grey.400'}
+          overflow={'hidden'}
         >
-          {commitmentsLoading && <LoadingSpinner />}
-          {!commitmentsLoading && commitments && (
-            <Commitments commitments={commitments} />
-          )}
+          <CommitmentsGrid
+            loading={commitmentsLoading}
+            commitments={commitments}
+          />
         </Box>
       )}
     </Box>
