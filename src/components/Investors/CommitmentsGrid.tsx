@@ -8,8 +8,6 @@ type CommitmentsGridProps = {
 }
 
 const commitmentColumns = [
-  'investorId',
-  'investorName',
   'fundId',
   'fundName',
   'fundManagerId',
