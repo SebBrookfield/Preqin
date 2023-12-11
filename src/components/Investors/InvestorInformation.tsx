@@ -7,7 +7,8 @@ import {
   Typography,
   Select,
   MenuItem,
-  SelectChangeEvent
+  SelectChangeEvent,
+  Button
 } from '@mui/material'
 import { investorsService } from '../../services/preqinInvestorsService'
 import { toKvp } from '../../utils/kvp'
@@ -15,12 +16,16 @@ import { camelCaseToSentenceCase } from '../../utils/toSentenceCase'
 import { Label } from '../Label'
 import { InformationBox } from '../InformationBox'
 import { CommitmentsGrid } from './CommitmentsGrid'
+import { ArrowBack } from '@mui/icons-material'
+import { useNavigate } from 'react-router-dom'
 
 type InvestorPanelProps = {
   investor: Investor
 }
 
 export const InvestorInformation: FC<InvestorPanelProps> = ({ investor }) => {
+  const navigate = useNavigate()
+
   const kvp = toKvp(investor, [
     'firmID',
     'firmName',
@@ -58,9 +63,14 @@ export const InvestorInformation: FC<InvestorPanelProps> = ({ investor }) => {
 
   return (
     <Box display={'flex'} flexDirection={'column'} gap={3}>
-      <Typography component="h1" variant="h5">
-        {investor.firmName}
-      </Typography>
+      <Box display={'flex'}>
+        <Typography component="h1" variant="h5" flexGrow={1}>
+          {investor.firmName}
+        </Typography>
+        <Button onClick={() => navigate(-1)}>
+          <ArrowBack />
+        </Button>
+      </Box>
 
       <InformationBox>
         {kvp
